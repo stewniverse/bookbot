@@ -10,10 +10,12 @@ def get_book_text(filepath):
     return file_as_string
 '''
 
-def print_report(results):
-    num_words = get_num_words('./books/frankenstein.txt')
+def print_report(filepath):
+    results = to_report_list(text_to_character_count(filepath))
+    num_words = get_num_words(filepath)
+    results.sort(reverse=True, key=sort_on)
     print("============ BOOKBOT ============")
-    print("Analyzing book found at books/frankenstein.txt...")
+    print(f"Analyzing book found at {filepath}")
     print("----------- Word Count ----------")
     print(f"Found {num_words} total words")
     print("--------- Character Count -------")
@@ -24,10 +26,14 @@ def print_report(results):
 
 
 def main():
+    if (len(sys.argv) != 2):
+        print("Usage: python3 main.py <path_to_book>")
+        sys.exit(1)
+        
     # use the relative filepath of the book to get the contents
     ## print(text_to_character_count('./books/frankenstein.txt'))
     ## print(to_report_list(text_to_character_count('./books/frankenstein.txt')).sort(reverse=True,key=sort_on))
-    results = to_report_list(text_to_character_count('./books/frankenstein.txt'))
-    results.sort(reverse=True, key=sort_on)
-    print_report(results)
+
+    print_report(sys.argv[1])
+    sys.exit(0)
 main()
